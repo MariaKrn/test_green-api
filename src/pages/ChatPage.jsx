@@ -1,6 +1,7 @@
 import { Box, Button, Paper, TextField } from "@mui/material";
+import { testFunction } from "../api/api";
 
-export const ChatPage = () => {
+export const ChatPage = ({ idInstanceData, apiTokenInstanceData }) => {
   return (
     <Box
       style={{
@@ -70,7 +71,11 @@ export const ChatPage = () => {
                   fullWidth
                   style={{ paddingRight: "20px" }}
                 ></TextField>
-                <Button variant={"contained"} color={"primary"}>
+                <Button
+                  onClick={() => testFunction()}
+                  variant={"contained"}
+                  color={"primary"}
+                >
                   Отправить
                 </Button>
               </Box>

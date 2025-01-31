@@ -1,7 +1,7 @@
 import { Box, Button, Paper, TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-export const LoginPage = () => {
+export const LoginPage = ({ setIdInstanceData, setApiTokenInstanceData }) => {
   const navigate = useNavigate();
   const handleNavigate = () => {
     navigate("/chat");
@@ -22,6 +22,9 @@ export const LoginPage = () => {
         }}
       >
         <TextField
+          onChange={(e) => {
+            setIdInstanceData(e.target.value);
+          }}
           id="outlined-basic"
           label="idInstance"
           variant="outlined"
@@ -34,6 +37,9 @@ export const LoginPage = () => {
           }}
         />
         <TextField
+          onChange={(e) => {
+            setApiTokenInstanceData(e.target.value);
+          }}
           id="outlined-basic"
           label="apiTokenInstance"
           variant="outlined"
