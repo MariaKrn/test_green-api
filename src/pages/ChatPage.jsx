@@ -1,7 +1,20 @@
 import { Box, Button, Paper, TextField } from "@mui/material";
-import { testFunction } from "../api/api";
+import { receiveMessage, sendMessage } from "../api/api";
+import { useEffect, useState } from "react";
 
 export const ChatPage = ({ idInstanceData, apiTokenInstanceData }) => {
+  const [phone, setPhone] = useState("");
+  const [chat, setChat] = useState(false);
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      receiveMessage(idInstanceData, apiTokenInstanceData);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <Box
       style={{
@@ -39,7 +52,18 @@ export const ChatPage = ({ idInstanceData, apiTokenInstanceData }) => {
             >
               Telephone Number
             </Box>
-            <TextField></TextField>
+            <TextField
+              onChange={(e) => {
+                setPhone(e.target.value);
+              }}
+            ></TextField>
+            <Button
+              onClick={() => setChat(true)}
+              variant={"contained"}
+              color={"primary"}
+            >
+              Создать чат
+            </Button>
           </Box>
           <Paper
             style={{
@@ -49,37 +73,49 @@ export const ChatPage = ({ idInstanceData, apiTokenInstanceData }) => {
               paddingLeft: "25px",
             }}
           >
-            <Box width={"100%"}>
-              <Box maxHeight={"300px"} paddingTop={"20px"} overflow={"auto"}>
-                // TODO: change the heigth
-                <TextField
-                  id="outlined-textarea"
-                  height={"200px"}
-                  multiline
-                  fullWidth
-                />
-              </Box>
-              <Box
-                style={{
-                  width: "100%",
-                  marginTop: "50px",
-                  marginBottom: "50px",
-                  display: "flex",
-                }}
-              >
-                <TextField
-                  fullWidth
-                  style={{ paddingRight: "20px" }}
-                ></TextField>
-                <Button
-                  onClick={() => testFunction()}
-                  variant={"contained"}
-                  color={"primary"}
+            {chat && (
+              <Box width={"100%"}>
+                <Box maxHeight={"300px"} paddingTop={"20px"} overflow={"auto"}>
+                  // TODO: change the heigth
+                  <TextField
+                    id="outlined-textarea"
+                    height={"200px"}
+                    multiline
+                    fullWidth
+                  />
+                </Box>
+                <Box
+                  style={{
+                    width: "100%",
+                    marginTop: "50px",
+                    marginBottom: "50px",
+                    display: "flex",
+                  }}
                 >
-                  Отправить
-                </Button>
+                  <TextField
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    fullWidth
+                    style={{ paddingRight: "20px" }}
+                  ></TextField>
+                  <Button
+                    onClick={() => {
+                      sendMessage(
+                        phone,
+                        message,
+                        idInstanceData,
+                        apiTokenInstanceData,
+                      );
+                      setMessage("");
+                    }}
+                    variant={"contained"}
+                    color={"primary"}
+                  >
+                    Отправить
+                  </Button>
+                </Box>
               </Box>
-            </Box>
+            )}
           </Paper>
         </Box>
       </Paper>
