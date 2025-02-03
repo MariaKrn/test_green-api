@@ -5,8 +5,10 @@ import { ChatPage } from "./pages/ChatPage";
 import { useState } from "react";
 
 function App() {
-  const [idInstanceData, setIdInstanceData] = useState();
-  const [apiTokenInstanceData, setApiTokenInstanceData] = useState();
+  const [idInstanceData, setIdInstanceData] = useState("1103183129");
+  const [apiTokenInstanceData, setApiTokenInstanceData] = useState(
+    "cd7343ff26424de3a9d0e8511ca00675cf967bdaf5634942a0",
+  );
 
   return (
     <div className="App">
